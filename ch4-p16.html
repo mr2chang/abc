@@ -1,0 +1,187 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CH4-16-下拉選單</title>
+    <style type="text/css">
+        /* Main menu settings */
+
+
+        #centeredmenu {
+            clear: both;
+            float: left;
+            margin: 0;
+            padding: 0;
+            border-bottom: 2px solid #000;
+            /* black line below menu */
+            width: 100%;
+            font-family: Verdana, Geneva, sans-serif;
+            /* Menu font */
+            font-size: 80%;
+            /* Menu text size */
+            z-index: 1000;
+            /* This makes the dropdown menus appear above the page content below */
+            
+
+        }
+
+        /* Top menu items */
+        #centeredmenu ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            float: right;
+            position: relative;
+            right: 50%;
+        }
+
+        #centeredmenu ul li {
+            margin: 0 0 0 1px;
+            padding: 0;
+            float: left;
+            position: relative;
+            left: 50%;
+            top: 1px;
+        }
+
+        #centeredmenu ul li a {
+            display: block;
+            margin: 0;
+            padding: .6em .5em .4em;
+            font-size: 1em;
+            line-height: 1em;
+            background: #ddd;
+            text-decoration: none;
+            color: #444;
+            font-weight: bold;
+            border-bottom: 1px solid #000;
+        }
+
+        #centeredmenu ul li.active a {
+            color: #fff;
+            background: #000;
+        }
+
+        #centeredmenu ul li a:hover {
+            background: #36f;
+            /* Top menu items background colour */
+            color: #fff;
+            border-bottom: 1px solid #03f;
+        }
+
+    
+        #centeredmenu ul li.hover a {
+            /* This line is required for IE 6 and below */
+            background: rgb(255, 51, 180);
+            /* Top menu items background colour */
+            color: #fff;
+            border-bottom: 2px solid rgb(0, 255, 98);
+        }
+
+        /* Submenu items */
+        #centeredmenu ul ul {
+            display: none;
+            /* Sub menus are hiden by default */
+            position: absolute;
+            top: 2em;
+            left: 0;
+            right: auto;
+            /*resets the right:50% on the parent ul */
+            width: 10em;
+            /* width of the drop-down menus */
+        }
+
+        #centeredmenu ul ul li {
+            left: auto;
+            /*resets the left:50% on the parent li */
+            margin: 0;
+            /* Reset the 1px margin from the top menu */
+            clear: left;
+            width: 100%;
+        }
+
+        #centeredmenu ul ul li a,
+        #centeredmenu ul li.active li a,
+        #centeredmenu ul li:hover ul li a,
+        #centeredmenu ul li.hover ul li a {
+            /* This line is required for IE 6 and below */
+            font-size: .8em;
+            font-weight: normal;
+            /* resets the bold set for the top level menu items */
+            background: #eee;
+            color: #444;
+            line-height: 1.4em;
+            /* overwrite line-height value from top menu */
+            border-bottom: 1px solid #ddd;
+            /* sub menu item horizontal lines */
+        }
+
+        #centeredmenu ul ul li a:hover,
+        #centeredmenu ul li.active ul li a:hover,
+        #centeredmenu ul li:hover ul li a:hover,
+        #centeredmenu ul li.hover ul li a:hover {
+            /* This line is required for IE 6 and below */
+            background: #36f;
+            /* Sub menu items background colour */
+            color: #fff;
+        }
+
+        /* Flip the last submenu so it stays within the page */
+        #centeredmenu ul ul.last {
+            left: auto;
+            /* reset left:0; value */
+            right: 0;
+            /* Set right value instead */
+        }
+
+        /* Make the sub menus appear on hover */
+        #centeredmenu ul li:hover ul,
+        #centeredmenu ul li.hover ul {
+            /* This line is required for IE 6 and below */
+            display: block;
+            /* Show the sub menus */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="centeredmenu">
+
+        <ul>
+            <li><a href="#">選單</a>
+                <ul>
+                    <li><a href="http://www.colorez.com" target="main">Colorez</a></li>
+                    <li><a href="#">連結_B</a></li>
+                    <li><a href="#">連結_C</a></li>
+                    <li><a href="#">連結_E</a></li>
+                    <li><a href="#">連結_F</a></li>
+                </ul>
+            </li>
+            <li class="active"><a href="#" class="active">選單_B</a>
+                <ul>
+                    <li><a href="https://www.pchome.com.tw/" target="main">PC Home</a></li>
+                    <li><a href="#">連結_B</a></li>
+                    <li><a href="#">連結_C</a></li>
+                    <li><a href="#">連結_E</a></li>
+                    <li><a href="#">連結_F is a long 連結 that wraps</a></li>
+                </ul>
+            </li>
+            <li><a href="#">選單_C</a>
+                <ul>
+                    <li><a href="#">連結_A</a></li>
+                    <li><a href="https://www.litv.tv/channel/watch/litv-vchannel1" target="main">LiTV</a></li>
+                    <li><a href="#">連結_C</a></li>
+                    <li><a href="#">連結_E</a></li>
+                    <li><a href="#">連結_F</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <iframe src="../images/icce_01.jpg" width="960" height="640" name="main" frameborder="0" Alig>
+    </iframe>
+</body>
+
+</html>
