@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 手機版 RWD 必加 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RWD 多層選單（進階強化版）</title>
+
+    <style>
+
+        /* ============================================================================
+           全域設定
+           ============================================================================ */
+        body {
+            margin: 0;
+            font-family: "Microsoft JhengHei", sans-serif;
+            scroll-behavior: smooth;   /* ✔ 平滑滾動（2025 標準） */
+            background: #f2f5fa;
+        }
+
+        /* ============================================================================
+           Hero Banner（網站主視覺）
+           ============================================================================ */
+        .hero {
+            height: 320px;
+            background: linear-gradient(to right, #0040ff, #0099ff);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 1.2s ease-out;  /* ✔ 淡入動畫 */
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.85;
+        }
+
+        @keyframes fadeIn {
+            from { opacity:0; transform: translateY(20px); }
+            to { opacity:1; transform: none; }
+        }
+
+        /* ============================================================================
+           頁首
+           ============================================================================ */
+        header {
+            background: #003ce6;
+            color: white;
+            padding: 16px;
+            font-size: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* ============================================================================
+           手機漢堡按鈕
+           ============================================================================ */
+        .menu-btn {
+            display: none;
+            font-size: 32px;
+            cursor: pointer;
+            padding: 14px 20px;
+            background: #003ce6;
+            color: white;
+        }
+
+        /* ============================================================================
+           背景遮罩（點選可關閉選單）
+           ============================================================================ */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 998;
+        }
+
+        /* ============================================================================
+           側邊選單（手機）
+           ============================================================================ */
+        nav {
+            background: #003ce6;
+            position: fixed;
+            top: 0; left: -270px;
+            width: 270px;
+            height: 100%;
+            overflow-y:auto;
+            transition: left 0.35s ease;
+            z-index: 999;
+            text-align: center;
+        }
+
+        nav.active { left: 0; }
+        .overlay.active { display: block; }
+
+        nav ul { list-style: none; margin: 0; padding: 0; }
+        nav > ul > li { border-bottom: 1px solid #4d73ff; }
+
+        nav a {
+            display: block;
+            padding: 14px 20px;
+            color: white;
+            text-decoration: none;
+            transition: background 0.25s ease;
+        }
+        nav a:hover { background: #002db3; }
+
+        /* 第二層 */
+        nav ul ul {
+            display: none;
+            background: #3366ff;
+        }
+
+        /* 高度動畫（slideDown/slideUp 模擬）*/
+        nav ul ul.slide {
+            animation: slideDown 0.35s ease forwards;
+        }
+        nav ul ul.hide {
+            animation: slideUp 0.35s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from { height:0; opacity:0; }
+            to { height: var(--target-height); opacity:1; }
+        }
+        @keyframes slideUp {
+            from { height:var(--target-height); opacity:1; }
+            to { height:0; opacity:0; }
+        }
+
+        /* 箭頭動畫 */
+        .arrow {
+            float:right;
+            transition: transform 0.25s ease;
+        }
+        li.open > a .arrow {
+            transform: rotate(90deg);
+        }
+
+        /* ============================================================================
+           桌機版選單（最上方水平選單）
+           ============================================================================ */
+        @media (min-width: 769px){
+            .menu-btn { display:none; }
+            .overlay { display:none; }
+            nav {
+                position: relative;
+                left:0;
+                height:auto;
+                width:100%;
+                display:block;
+            }
+            nav ul ul {
+                position:absolute;
+                min-width:180px;
+                box-shadow:0 2px 8px rgba(0,0,0,0.3);
+            }
+            nav > ul > li { display:inline-block; }
+            nav ul ul ul { left:180px; top:0; }
+            nav ul ul { display:outside; }
+            nav ul li:hover > ul { display:block; }
+        }
+
+        /* ============================================================================
+           功能卡片區（Homepage Cards）
+           ============================================================================ */
+        .cards {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 3px 10px rgba(0,0,0,0.15);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow:0 5px 14px rgba(0,0,0,0.22);
+        }
+        .card h3 { margin-top:0; color:#003ce6; }
+
+        /* ============================================================================
+           回到頂端按鈕
+           ============================================================================ */
+        #topBtn {
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            background: #003ce6;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+            box-shadow:0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        #topBtn.show {
+            display:block;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 頁首 -->
+<header>多層下拉選單（進階強化版）</header>
+
+<!-- 手機漢堡選單 -->
+<div class="menu-btn" onclick="toggleMenu()">☰ 選單</div>
+
+<!-- 背景遮罩（手機） -->
+<div class="overlay" onclick="toggleMenu()"></div>
+
+<!-- Hero Banner -->
+<section class="hero">
+    <h1>歡迎來到我的網站</h1>
+    <p>這是全新改版的 RWD 多層選單介面</p>
+</section>
+
+<!-- =======================================================================================
+     主選單區塊
+     ※ 三層選單結構從這裡開始
+     ======================================================================================= -->
+<nav>
+    <ul id="menu">
+
+        <!--===================== 第一個選單 =====================-->
+        <li>
+            <a href="#">
+                第一個選單 
+                <span class="arrow">▼</span> <!-- 手機版小箭頭 -->
+            </a>
+
+            <!-- 第二層選單 -->
+            <ul>
+                <li><a href="http://www.colorez.com" target="main">10001</a></li>
+                <li><a href="#">10002</a></li>
+                <li><a href="#">10003</a></li>
+                <li><a href="#">10004</a></li>
+            </ul>
+        </li>
+
+        <!--===================== 第二個選單 =====================-->
+        <li>
+            <a href="#">
+                第二個選單 
+                <span class="arrow">▼</span>
+            </a>
+
+            <!-- 第二層 -->
+            <ul>
+                <li><a href="#">20001</a></li>
+
+                <!-- 有第三層 -->
+                <li>
+                    <a href="#">20002 <span class="arrow">▶</span></a>
+                    <ul>
+                        <li><a href="#">20022</a></li>
+                        <li><a href="#">20023</a></li>
+                        <li><a href="#">20024</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">20003</a></li>
+                <li><a href="#">20004</a></li>
+            </ul>
+        </li>
+
+        <!--===================== 第三個選單 =====================-->
+        <li>
+            <a href="#">
+                第三個選單 
+                <span class="arrow">▼</span>
+            </a>
+
+            <!-- 第二層 -->
+            <ul>
+
+                <!-- 有第三層 -->
+                <li>
+                    <a href="#">30001 <span class="arrow">▶</span></a>
+
+                    <ul>
+                        <li><a href="#">30002</a></li>
+                        <li><a href="#">30003</a></li>
+                        <li><a href="#">30004</a></li>
+                    </ul>
+                </li>
+
+                <!-- 第二層中的另一支線 -->
+                <li>
+                    <a href="#">第三個選單第二層 <span class="arrow">▶</span></a>
+
+                    <!-- 第三層 -->
+                    <ul>
+                        <li><a href="http://www.colorez.com" target="main">colorez</a></li>
+                        <li><a href="#">30031</a></li>
+
+                        <!-- 第四層（示範） -->
+                        <li>
+                            <a href="#">第三個選單第三層 <span class="arrow">▶</span></a>
+
+                            <ul>
+                                <li><a href="https://www.pchome.com.tw" target="main">pchome</a></li>
+                                <li><a href="#">30032</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</nav>
+
+<!-- 功能卡片 -->
+<section class="cards">
+    <div class="card">
+        <h3>快速選單系統</h3>
+        <p>支援三層選單、手機滑出式側欄。</p>
+    </div>
+    <div class="card">
+        <h3>RWD 自適應設計</h3>
+        <p>適用手機、平板、桌機。</p>
+    </div>
+    <div class="card">
+        <h3>動畫效果強化</h3>
+        <p>選單滑動、箭頭旋轉、淡入效果。</p>
+    </div>
+</section>
+
+<!-- 回到頂端按鈕 -->
+<div id="topBtn" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</div>
+
+<script>
+
+    /* ============================================================================
+       手機：開啟／關閉側邊欄
+       ============================================================================ */
+    function toggleMenu(){
+        document.getElementById("sideMenu").classList.toggle("active");
+        document.querySelector(".overlay").classList.toggle("active");
+    }
+
+    /* ============================================================================
+       手機：點擊展開子選單（含高度動畫）
+       ============================================================================ */
+    document.querySelectorAll("#menu > li > a").forEach(a => {
+
+        a.addEventListener("click", function(e){
+
+            if(window.innerWidth > 768) return; // 桌機不處理
+
+            const parent = this.parentElement;
+            const submenu = parent.querySelector("ul");
+
+            if(!submenu) return;
+
+            e.preventDefault(); // 不跳轉
+
+            const isOpen = parent.classList.contains("open");
+
+            /* 收合其它展開的選單 */
+            document.querySelectorAll("#menu li.open").forEach(openLi => {
+                if(openLi !== parent){
+                    const sub = openLi.querySelector("ul");
+                    closeMenu(openLi, sub);
+                }
+            });
+
+            /* 開/關自身 */
+            if(isOpen){
+                closeMenu(parent, submenu);
+            }else{
+                openMenu(parent, submenu);
+            }
+        });
+    });
+
+    function openMenu(li, submenu){
+        li.classList.add("open");
+        submenu.style.setProperty("--target-height", submenu.scrollHeight + "px");
+        submenu.classList.remove("hide");
+        submenu.classList.add("slide");
+    }
+
+    function closeMenu(li, submenu){
+        li.classList.remove("open");
+        submenu.style.setProperty("--target-height", submenu.scrollHeight + "px");
+        submenu.classList.remove("slide");
+        submenu.classList.add("hide");
+
+        /* 動畫結束後真正隱藏 */
+        submenu.addEventListener("animationend", () => {
+            if(!li.classList.contains("open")){
+                submenu.classList.remove("hide");
+                submenu.style.height = "0";
+                submenu.style.overflow = "hidden";
+            }
+        }, { once:true });
+    }
+
+    /* ============================================================================
+       顯示／隱藏回頂端按鈕
+       ============================================================================ */
+    window.addEventListener("scroll", () => {
+        const btn = document.getElementById("topBtn");
+        if(window.scrollY > 300){
+            btn.classList.add("show");
+        } else {
+            btn.classList.remove("show");
+        }
+    });
+
+</script>
+
+</body>
+</html>
