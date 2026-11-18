@@ -1,0 +1,290 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>左側邊收合選單</title>
+    <style>
+        * {
+            margin: 10;
+            padding: 10;
+            list-style: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #546377;
+        }
+
+        .side-menu {
+            position: relative;
+            width: 300px;
+            height: 100%;
+            padding: 50px 0;
+            box-sizing: border-box;
+            background-image: linear-gradient(0deg, #3381b0, #420051);
+            /*`background-image` 屬性是用來設置元素的背景圖片，而 `linear-gradient` 是 CSS3 中的一種背景圖片生成方式，可以用來創建一個漸變的背景。`linear-gradient` 函数中第一個參數是指定了漸變的方向，0deg 表示從上到下，90deg 表示從左到右，以此類推。第二個參數則是指定了漸變的起始顏色，第三個參數則是指定了漸變的終止顏色。
+    `background-image` 屬性使用 `linear-gradient` 函数創建了一個從上到下的漸變背景，起始顏色為 `#3381b0`，終止顏色為 `#420051`。*/
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 0px 10px hsla(240, 40%, 15%, .6);
+            transform: translateX(-100%);
+            transition: .3s;
+        }
+
+        .side-menu form {
+            display: flex;
+            margin: 0 10px 50px;
+            border-radius: 100px;
+            border: 1px solid rgb(255, 255, 255, .4);
+        }
+
+        .side-menu form input,
+        .side-menu form button {
+            border: none;
+            background-color: transparent;
+            color: #fff;
+            padding: 5px 10px;
+        }
+
+        .side-menu form input {
+            width: 230px;
+        }
+
+        .side-menu form button {
+            width: 50px;
+        }
+
+        .side-menu form input:focus,
+        .side-menu form button:focus {
+            outline: none;
+        }
+
+        .side-menu label {
+            position: absolute;
+            width: 40px;
+            height: 80px;
+            background-color: #0121E3;
+            color: #fff;
+            right: -40px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            line-height: 80px;
+            text-align: center;
+            font-size: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        #side-menu-switch {
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        #side-menu-switch:checked+.side-menu {
+            transform: translateX(0);
+        }
+
+        #side-menu-switch:checked+.side-menu label .fa {
+            transform: scaleX(-1);
+        }
+
+        .nav a {
+            display: block;
+            padding: 10px;
+            color: #F9E907;
+            text-decoration: none;
+            position: relative;
+            font-family: 'Noto Sans TC', sans-serif;
+            /* CSS屬性會在元素的上邊框（border-top）上創建一條寬度為 1 像素、顏色為白色（rgb(255, 255, 255)）且透明度為 0.4（.4）的實線（solid）。換言之，這會在元素的上邊緣創建一條帶有一定透明度的白色線條。*/
+        }
+
+        .nav li {
+            position: relative;
+        }
+
+        .nav li+li a::before {
+            content: '';
+            position: absolute;
+            border-top: 1px solid rgb(255, 255, 255, .4);
+            left: 10px;
+            right: 10px;
+            top: 0;
+        }
+
+        .nav a .fa {
+            margin-right: -1.1em;
+            transform: scale(0);
+            transition: .3s;
+        }
+
+        .nav li:hover .fa {
+            margin-right: 0em;
+            transform: scale(1);
+        }
+
+        .nav li:hover>a {
+            background-color: rgba(0, 0, 0, .5);
+        }
+
+        .nav ul {
+            display: none;
+            position: absolute;
+            left: 100%;
+            width: 300px;
+            top: 6px;
+            background-color: rgba(65, 171, 0, 1.00);
+            /*RGBA color value: CSS 的屬性，用來設定一個元素的背景顏色，其中 rgba 表示使用紅、綠、藍三種顏色來混合產生一種顏色，第四個參數 1.00 則是透明度，數值從 0 到 1，1 表示完全不透明。rgba(65,171,0,1.00) 表示產生一個以紅色值為 65、綠色值為 171、藍色值為 0 的顏色，完全不透明。*/
+
+            box-shadow: 5px 5px 10px hsla(240, 40%, 15%, .6);
+            /*CSS 中的屬性，用於為元素添加陰影效果。屬性值由四個參數組成，分別是：水平偏移量、垂直偏移量、模糊度和顏色。
+在你提供的代碼中，box-shadow: 5px 5px 10px hsla 的意思是：添加一個向右下偏移 5px、向下偏移 5px，模糊度為 10px 的陰影，顏色使用 hsla 表示。但是，你提供的代碼中的 hsla 缺少色值，需要補充具體的色值。HSLA 是一種用於描述顏色的 CSS 色彩模式，由色相（Hue）、飽和度（Saturation）、亮度（Lightness）和透明度（Alpha）四個參數組成。*/
+        }
+
+        .nav li:hover>ul {
+            display: block;
+        }
+
+        /*作用是在懸停在 .nav 元素中的 
+    <li> 元素上時，顯示該 <li> 元素的子級 <ul> 元素。
+    這通常用於創建下拉選單效果，當滑鼠懸停在選單項上時，顯示其子選單。*/
+
+        #frameContentRight
+
+        /* id 為 frameContentRight 的元素的樣式*/
+            {
+            position: absolute;
+            /*元素的位置相對於父元素（或上層元素）*/
+            left: 15px;
+            /*元素左側與父元素左側的距離為 15 像素。*/
+            top: 30px;
+            /*元素上方與父元素上方的距離為 10 像素。*/
+            height: 96%;
+            /*元素的高度為父元素高度的 96%。*/
+            width: 98%;
+            /*元素的寬度為父元素寬度的 98%。*/
+            right: 0;
+            /*元素右側與父元素右側的距離為 0。*/
+            bottom: 0;
+            /*元素下方與父元素下方的距離為 0。*/
+            overflow: hidden;
+            /*元素內容溢出時隱藏。*/
+            /*overflow 屬性有以下四個值：
+    visible：內容超出元素的框框時會顯示在元素外面。
+    hidden：當內容超出元素的框框時，超出部分會被隱藏。
+    scroll：當內容超出元素的框框時，會顯示滾動條，用戶可以使用滾動條來查看超出部分。
+    auto：當內容超出元素的框框時，會根據需要自動顯示滾動條。*/
+            background: #fff;
+            /*元素背景顏色為白色。*/
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <marquee direction="right" height="30" scrollamount="5" behavior="alternate" bgcolor=00ffff>跑馬燈測試 跑馬燈測試 跑馬燈測試
+    </marquee>
+    <!--<div id="frameContentRight" name="main"> <a href="index-a.htm"></a></div> -->
+    <iframe src="http://www.colorez.com" class="nav" id="frameContentRight" name="main"></iframe>
+    <input type="checkbox" name="main" id="side-menu-switch">
+    <!-- <iframe> 標籤設置了一個來自 "http://www.colorez.com" 的網頁作為它的內容，
+    並且使用 class="nav" 屬性和 id="frameContentRight" 屬性來對它進行樣式設置和操作。
+    name="main" 屬性被用作連結目標的名稱，以便在其他頁面中使用該名稱作為超鏈接的 
+    target 屬性值。
+    <input> 標籤被用作側邊欄切換開關的控制器，
+    type="checkbox" 屬性使其成為一個可選中或未選中的選擇框， 
+    name="main" 屬性和 id="side-menu-switch" 屬性則用於設置和操作該選擇框。-->
+
+    <div class="side-menu">
+        <form>
+            <input type="search" placeholder="請輸入關鍵字">
+            <button><i class="fa fa-search"></i></button>
+        </form>
+        <ul class="nav">
+            <li>
+                <a href="#">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    第一層選單-1
+                </a>
+                <ul>
+                    <li>
+                        <a href="https://www.csu.edu.tw" target="main">第二層選單-1正修</a>
+                        <!-- HTML 中，target 是用來指定連結要在哪個視窗中打開的屬性。常見的值有：
+                        _self：在同一個視窗中打開頁面（預設值）。
+                        _blank：在新的視窗或分頁中打開頁面。
+                        _parent：在父視窗中打開頁面（用在嵌套框架的情況下）。
+                        _top：在整個瀏覽器視窗中打開頁面（用在嵌套框架的情況下）。-->
+                        <ul>
+                            <li><a href="https://academic.csu.edu.tw/" target="main">第三層選單-1-1正修教務處</a></li>
+                            <li><a href="index-a.htm" target="main">第三層選單-1-2色彩演繹</a></li>
+                            <li><a href="https://osa.csu.edu.tw/" target="main">第三層選單-1-3正修學務處</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="https://www.pchome.com.tw/" target="main">第二層選單-2PChome</a>
+                        <ul>
+                            <li><a href="https://youtu.be/e1QKw15AGpE" target="_blank"> 第三層選單-2-1YouTube</a></li>
+                            <li><a href="https://www.mr2chang.synology.me/movies/Avatar2-The-Way-of-Water.mp4"
+                                    target="main">第三層選單-2-2 Avatar2</a></li>
+                            <li><a href="https://www.pchome.com.tw" target="main">第三層選單-2-3 PChome</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="https://www.ccu.edu.tw" target="main">第二層選單-3 中正大學</a>
+                        <ul>
+                            <li><a href="https://cs.ccu.edu.tw/" target="main">第三層選單-3-1 中正資工</a></li>
+                            <li><a href="https://media.csu.edu.tw/" target="main">第三層選單-3-2 正修數位</a></li>
+                            <li><a href="https://scholar.google.com.tw/" target="main">第三層選單-3-3</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="https://www.litv.tv/channel/watch.do?content_id=litv-vchannel1&content_type=vod-channel"
+                            target="main">第二層選單-4 LiTV</a>
+                        <ul>
+                            <li><a href="https://www.litv.tv/vod/drama/" target="main">第三層選單-4-1 LiTV戲劇</a></li>
+                            <li><a href="https://www.litv.tv/vod/comic/" target="main">第三層選單-4-2 LiTV動漫</a></li>
+                            <li><a href="https://www.cht.com.tw/articles/10202243" target="main">第三層選單-4-3 中華電信</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-gavel" aria-hidden="true"></i>
+                    第一層選單-2
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-object-group" aria-hidden="true"></i>
+                    第一層選單-3
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                    第一層選單-4
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-cutlery" aria-hidden="true"></i>
+                    第一層選單-5
+                </a>
+            </li>
+        </ul>
+        <label for="side-menu-switch" color="red">
+            <i class="fa fa-angle-right">></i>
+        </label>
+    </div>
+
+
+</body>
+
+</html>
